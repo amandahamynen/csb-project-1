@@ -23,6 +23,7 @@ SECRET_KEY = 'django-insecure-$$*11m3rk#th9)kz)u)j1kcc7!^sr7b%4(7w!r+%x4@bj0zdpg
 
 # FLAW 5: A6:2017 – Security Misconfiguration
 DEBUG = True
+
 # FIX:
 # DEBUG = False
 

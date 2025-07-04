@@ -48,6 +48,7 @@ def login_view(request):
         password = request.POST.get('password')
 
         try:
+            
             # Continuation of FLAW 2: A2:2017 – Broken Authentication
             user = User.objects.get(username=username, password=password)
             request.session['user_id'] = user.id
@@ -60,6 +61,7 @@ def login_view(request):
                 #return redirect('index')
             #else:
                 #error = "Invalid username or password."
+
         except:
             error = "Invalid username or password."
     return render(request, 'login.html', {'error': error})
@@ -72,15 +74,16 @@ def view_note(request, note_id):
     user_id = request.session.get('user_id')
     if not user_id:
         return redirect('login')
-    
-    # FLAW 3: A5:2017 – Broken Access Control
-    note = Note.objects.get(id=note_id)
+    try:
 
-    # FIX:
-    # try:
+        # FLAW 3: A5:2017 – Broken Access Control
+        note = Note.objects.get(id=note_id)
+
+        # FIX:
         # note = Note.objects.get(id=note_id, owner_id=user_id)
-    # except Note.DoesNotExist:
-        # return HttpResponse("You are not allowed to view this note.")
+
+    except Note.DoesNotExist:
+        return HttpResponse("Invalid note.")
 
     return render(request, 'view_note.html', {'note': note})
 

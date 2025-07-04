@@ -5,8 +5,10 @@
   <h1>Welcome {{ user.username }}</h1>
   <a href="/add_note/">Add Note</a><br><br>
   {% for note in notes %}
+
     <!--FLAW 4: A7:2017 – Cross-Site Scripting (XSS)-->
     <a href="/note/{{ note.0 }}/">{{ note.1|safe }}</a><br>
+    
     <!--FIX: remove "|safe" filter-->
     <!-- <a href="/note/{{ note.0 }}/">{{ note.1 }}</a><br> -->
   {% endfor %}
