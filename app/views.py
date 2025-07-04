@@ -56,12 +56,12 @@ def login_view(request):
             return redirect('index')
         
             # Continuation of FLAW 2 FIX: A2:2017 – Broken Authentication
-            #user = User.objects.get(username=username)
-            #if check_password(password, user.password):
-                #request.session['user_id'] = user.id
-                #return redirect('index')
-            #else:
-                #error = "Invalid username or password."
+            # user = User.objects.get(username=username)
+            # if check_password(password, user.password):
+                # request.session['user_id'] = user.id
+                # return redirect('index')
+            # else:
+                # error = "Invalid username or password."
 
         except:
             error = "Invalid username or password."
@@ -83,7 +83,7 @@ def view_note(request, note_id):
         # FIX:
         # note = Note.objects.get(id=note_id, owner_id=user_id)
 
-    except Note.DoesNotExist:
+    except:
         return HttpResponse("Invalid note.")
 
     return render(request, 'view_note.html', {'note': note})
