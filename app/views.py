@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib.auth.hashers import make_password, check_password
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Note
 
@@ -48,7 +49,7 @@ def login_view(request):
         password = request.POST.get('password')
 
         try:
-            
+
             # Continuation of FLAW 2: A2:2017 – Broken Authentication
             user = User.objects.get(username=username, password=password)
             request.session['user_id'] = user.id
@@ -87,6 +88,10 @@ def view_note(request, note_id):
 
     return render(request, 'view_note.html', {'note': note})
 
+# FLAW 4: CSRF
+@csrf_exempt
+# FIX:
+# remove @csrf_exempt
 def add_note(request):
     user_id = request.session.get('user_id')
     if not user_id:
